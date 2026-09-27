@@ -21,23 +21,24 @@ body{overflow-x:hidden}.app{min-height:100vh;display:flex;justify-content:center
   .rotate-screen{display:flex!important;background:#06131f;color:#eef7ff;pointer-events:auto}
 }
 @media (orientation:landscape){
-  .app{display:flex!important;min-height:100vh}
-  .shell{width:100%;max-width:none;padding:4px 6px}
-  .top{margin-bottom:4px;min-height:24px}
+  html,body{height:100%;overflow:hidden}
+  .app{display:flex!important;width:100%;height:100dvh;min-height:0;overflow:hidden}
+  .shell{width:100%;height:100%;max-width:none;padding:3px 6px;display:flex;flex-direction:column;min-height:0}
+  .top{flex:0 0 24px;margin-bottom:3px;min-height:24px}
   .brand{font-size:12px}.pill{padding:4px 8px;font-size:10px}
-  .screen{border-radius:12px}
-  .game{padding:5px}
-  .hud{margin-bottom:5px;gap:5px}
-  .score{padding:5px 9px;border-radius:10px}.points{font-size:21px}.name{font-size:9px}.set{font-size:9px}
-  .canvas-wrap{width:100%;height:48vh;min-height:145px;max-height:260px;aspect-ratio:auto}
-  .controls{grid-template-columns:minmax(105px,16%) 1fr;gap:6px;margin-top:6px;align-items:stretch}
-  .joystick{min-height:62px;height:clamp(62px,12vh,92px);border-radius:12px}
-  .joy-base{width:clamp(58px,10vh,82px);height:clamp(58px,10vh,82px)}
+  .screen{flex:1;min-height:0;border-radius:12px}
+  .game{height:100%;min-height:0;padding:4px;overflow:hidden}
+  .hud{margin-bottom:4px;gap:5px}
+  .score{padding:4px 8px;border-radius:9px}.points{font-size:20px}.name{font-size:9px}.set{font-size:9px}
+  .canvas-wrap{width:100%;height:auto;min-height:0;max-height:none;aspect-ratio:auto;flex:1}
+  .controls{flex:0 0 clamp(72px,15vh,100px);grid-template-columns:minmax(105px,16%) 1fr;gap:6px;margin-top:5px;align-items:stretch;min-height:0}
+  .joystick{min-height:0;height:100%;border-radius:12px}
+  .joy-base{width:clamp(56px,10vh,80px);height:clamp(56px,10vh,80px)}
   .joy-knob{width:clamp(28px,5vh,38px);height:clamp(28px,5vh,38px)}
   .shots{gap:5px}
-  .shot{min-height:0;height:100%;padding:5px 3px;border-radius:9px;font-size:12px}
+  .shot{min-height:0;height:100%;padding:4px 3px;border-radius:9px;font-size:12px}
   .shot span{font-size:8px;margin-top:1px}
-  .bottom{margin-top:5px}.secondary{padding:5px 9px;font-size:10px}
+  .bottom{flex:0 0 24px;margin-top:4px}.secondary{padding:3px 9px;font-size:10px}
 }
 </style>
 </head>

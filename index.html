@@ -17,15 +17,11 @@ body{overflow-x:hidden}.app{min-height:100vh;display:flex;justify-content:center
 
 .rotate-screen{display:none;position:fixed;inset:0;z-index:9999;background:#06131f;color:#eef7ff;align-items:center;justify-content:center;text-align:center;padding:28px;pointer-events:none}.rotate-card{max-width:420px}.rotate-icon{font-size:70px;line-height:1;margin-bottom:18px}.rotate-card h2{margin:0 0 10px;font-size:28px}.rotate-card p{color:#a9c4d5;line-height:1.5;margin:0}
 @media (orientation:portrait){
-  .app{display:flex;min-height:100vh}
-  .shell{width:100%;padding:8px}
-  .screen{min-height:calc(100vh - 16px)}
-  .menu{min-height:calc(100vh - 100px);padding:18px}
-  .modes{grid-template-columns:1fr 1fr}
-  .rotate-screen{display:flex;background:#06131fdd;pointer-events:none}
+  .app{display:none!important}
+  .rotate-screen{display:flex!important;background:#06131f;color:#eef7ff;pointer-events:auto}
 }
 @media (orientation:landscape){
-  .app{min-height:100vh}
+  .app{display:flex!important;min-height:100vh}
   .shell{width:min(1400px,100%);padding:8px}
   .top{margin-bottom:6px}
   .screen{border-radius:16px}

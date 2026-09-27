@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#071827">
+<title>ShipTools — Badminton</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;background:#06131f;color:#eef7ff}
+body{overflow-x:hidden}.app{min-height:100vh;display:flex;justify-content:center;background:radial-gradient(circle at 50% 0,#12314a 0,#06131f 52%,#040b12 100%)}
+.shell{width:min(1100px,100%);padding:16px}.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+.brand{font-weight:900;letter-spacing:.04em}.brand span{color:#6ee7b7}.pill{padding:7px 11px;border:1px solid #2b526b;border-radius:999px;background:#0b2233;color:#b9d6e8;font-size:12px}
+.screen{background:#071725;border:1px solid #214257;border-radius:22px;box-shadow:0 18px 60px #0008;overflow:hidden}
+.menu{padding:28px;min-height:680px;display:grid;place-items:center;text-align:center}.hero h1{font-size:clamp(36px,8vw,76px);margin:8px 0 4px;line-height:.95}.hero p{color:#a9c4d5;max-width:650px;margin:0 auto 25px}.badminton{font-size:76px;filter:drop-shadow(0 10px 18px #0007)}
+.modes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;width:min(700px,100%)}button{font:inherit;color:inherit;cursor:pointer;border:0}.mode{padding:22px;border-radius:18px;border:1px solid #2c5369;background:linear-gradient(145deg,#102c40,#0a1d2c);text-align:left;transition:.15s;min-height:130px}.mode:hover{transform:translateY(-2px);border-color:#6ee7b7}.mode strong{display:block;font-size:20px}.mode small{display:block;color:#91afc0;margin-top:7px;line-height:1.4}.rules{margin-top:22px;color:#7797aa;font-size:12px}.game{display:none;padding:12px}.hud{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center;margin-bottom:10px}.score{background:#0b2233;border:1px solid #284c62;border-radius:14px;padding:10px 13px}.score.right{text-align:right}.name{font-size:11px;color:#87a6b9;text-transform:uppercase;letter-spacing:.08em}.points{font-size:27px;font-weight:900}.center{text-align:center}.set{font-size:11px;color:#7f9bad}.canvas-wrap{position:relative;width:100%;aspect-ratio:16/10;background:#07131b;border-radius:17px;overflow:hidden;border:1px solid #1c4054}.canvas-wrap canvas{width:100%;height:100%;display:block;touch-action:none}.status{position:absolute;left:50%;top:10px;transform:translateX(-50%);background:#06131dcc;border:1px solid #31566b;border-radius:999px;padding:6px 12px;font-size:12px;white-space:nowrap;pointer-events:none}.controls{display:grid;grid-template-columns:1fr 1.3fr;gap:12px;margin-top:12px}.joystick{position:relative;min-height:150px;border:1px solid #24495e;border-radius:18px;background:#081b2a;touch-action:none}.joy-base{position:absolute;width:112px;height:112px;border-radius:50%;left:50%;top:50%;transform:translate(-50%,-50%);border:2px solid #315d73;background:#0c293c}.joy-knob{position:absolute;width:48px;height:48px;border-radius:50%;left:50%;top:50%;transform:translate(-50%,-50%);background:#6ee7b7;box-shadow:0 5px 20px #0008}.shots{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.shot{border:1px solid #31566b;border-radius:15px;background:#0a2132;min-height:70px;font-weight:800}.shot span{display:block;font-size:10px;color:#7898aa;font-weight:500;margin-top:3px}.shot:active{transform:scale(.97);background:#12374b}.bottom{display:flex;gap:8px;justify-content:center;margin-top:10px}.secondary{padding:10px 14px;border:1px solid #2a4d61;border-radius:12px;background:#0a1d2b;color:#b8d1df}.hidden{display:none}.modal{position:absolute;inset:0;background:#03101ad9;display:none;place-items:center;padding:18px}.modal-card{width:min(430px,100%);background:#0a1d2c;border:1px solid #2c5369;border-radius:20px;padding:24px;text-align:center}.modal-card h2{margin-top:0}.primary{background:#6ee7b7;color:#052019;padding:12px 18px;border-radius:12px;font-weight:900}.note{color:#8ba8b8;font-size:13px;line-height:1.5}@media(max-width:650px){.shell{padding:8px}.menu{padding:18px;min-height:650px}.modes{grid-template-columns:1fr}.controls{grid-template-columns:1fr}.shots{grid-template-columns:repeat(3,1fr)}.shot{min-height:62px}.hud{grid-template-columns:1fr auto 1fr}.points{font-size:23px}}
+</style>
+</head>
+<body>
+<div class="app"><main class="shell">
+<header class="top"><div class="brand">SHIPTOOLS <span>• BADMINTON</span></div><div class="pill">3D mobile prototype</div></header>
+<section class="screen">
+<div id="menu" class="menu">
+<div class="hero"><div class="badminton">🏸</div><h1>BADMINTON</h1><p>A mobile-first badminton game built around real rally scoring, singles and doubles court rules, and a foundation for local Wi‑Fi multiplayer.</p>
+<div class="modes">
+<button class="mode" data-mode="singles"><strong>👤 Singles</strong><small>1 vs 1 • singles court • computer opponent</small></button>
+<button class="mode" data-mode="doubles"><strong>👥 Doubles</strong><small>2 vs 2 • full doubles court • AI partners</small></button>
+</div>
+<div class="rules">21 points • win by 2 • maximum 30 • best of 3 games • rally-point scoring</div>
+</div>
+</div>
+<div id="game" class="game">
+<div class="hud">
+<div class="score"><div class="name" id="leftName">You</div><div class="points" id="leftScore">0</div></div>
+<div class="center"><div class="set" id="setText">Game 1</div><div class="set" id="serveText">Serve: You</div></div>
+<div class="score right"><div class="name" id="rightName">Opponent</div><div class="points" id="rightScore">0</div></div>
+</div>
+<div class="canvas-wrap"><canvas id="court"></canvas><div class="status" id="status">Move into position and serve</div><div id="modal" class="modal"><div class="modal-card"><h2 id="modalTitle">Game Over</h2><p class="note" id="modalBody"></p><button class="primary" id="modalAction">Continue</button></div></div></div>
+<div class="controls">
+<div class="joystick" id="joystick" aria-label="Movement joystick"><div class="joy-base"></div><div class="joy-knob" id="joyKnob"></div></div>
+<div class="shots">
+<button class="shot" data-shot="clear">CLEAR<span>Deep</span></button>
+<button class="shot" data-shot="drop">DROP<span>Soft</span></button>
+<button class="shot" data-shot="smash">SMASH<span>Fast</span></button>
+<button class="shot" data-shot="drive">DRIVE<span>Flat</span></button>
+<button class="shot" data-shot="lift">LIFT<span>High</span></button>
+<button class="shot" data-shot="serve">SERVE<span>Start rally</span></button>
+</div>
+</div>
+<div class="bottom"><button class="secondary" id="menuBtn">Main menu</button><button class="secondary" id="resetBtn">Restart match</button></div>
+</div>
+</section>
+</main></div>
+<script>
+(()=>{const canvas=document.getElementById('court'),ctx=canvas.getContext('2d');let mode='singles',raf=0,last=0,running=false,servePending=true,gameNo=1,match={you:0,opp:0},score={you:0,opp:0};let you={x:.5,y:.82,tx:.5,ty:.82},opp={x:.5,y:.18},partner={x:.25,y:.7},opp2={x:.75,y:.3};let shuttle={x:.5,y:.5,z:.2,vx:0,vy:0,vz:0,active:false,lastHit:'you'};let joy={x:0,y:0};const $=id=>document.getElementById(id);function resize(){const r=canvas.getBoundingClientRect(),d=Math.min(devicePixelRatio||1,2);canvas.width=r.width*d;canvas.height=r.height*d;ctx.setTransform(d,0,0,d,0,0)}addEventListener('resize',resize);resize();
+function resetRally(){servePending=true;shuttle={x:.5,y:.5,z:.15,vx:0,vy:0,vz:0,active:false,lastHit:'you'};you={x:.5,y:.82,tx:.5,ty:.82};opp={x:.5,y:.18};partner={x:.25,y:.72};opp2={x:.75,y:.28};$('status').textContent='Your serve — tap SERVE';updateHud()}
+function start(m){mode=m;gameNo=1;match={you:0,opp:0};score={you:0,opp:0};$('menu').style.display='none';$('game').style.display='block';$('leftName').textContent=m==='doubles'?'You + Partner':'You';$('rightName').textContent=m==='doubles'?'Opponents':'Opponent';resetRally();running=true;if(!raf)raf=requestAnimationFrame(loop)}
+function updateHud(){$('leftScore').textContent=score.you;$('rightScore').textContent=score.opp;$('setText').textContent='Game '+gameNo;$('serveText').textContent='Serve: '+(score.you%2===0?'You':'Opponent')}
+function point(who){score[who]++;updateHud();const a=score.you,b=score.opp;if((a>=21||b>=21)&&Math.abs(a-b)>=2||a===30||b===30){match[who]++;setTimeout(()=>endGame(who),350);return}resetRally()}
+function endGame(who){if(match[who]>=2){$('modalTitle').textContent=who==='you'?'Match won':'Match lost';$('modalBody').textContent='Final game score: '+score.you+' – '+score.opp+'. Start a new match to play again.';$('modalAction').textContent='New match';$('modalAction').onclick=()=>start(mode)}else{$('modalTitle').textContent=(who==='you'?'Game won':'Game lost');$('modalBody').textContent='Match score: '+match.you+' – '+match.opp+'. Ready for the next game?';$('modalAction').textContent='Next game';$('modalAction').onclick=()=>{gameNo++;score={you:0,opp:0};$('modal').style.display='none';resetRally()}}$('modal').style.display='grid'}
+function hit(type,who='you'){if(!shuttle.active&&type!=='serve')return;if(type==='serve'){if(!servePending)return;servePending=false;shuttle.active=true;shuttle.lastHit='you';shuttle.x=you.x;shuttle.y=.72;shuttle.z=.35;shuttle.vx=(.5-you.x)*.5;shuttle.vy=-.58;shuttle.vz=.55;$('status').textContent='Rally in play';return}if(shuttle.lastHit!==who)return;let p={clear:[0,-.68,.35],drop:[0,-.34,.1],smash:[0,-.82,.65],drive:[0,-.55,.08],lift:[0,-.42,.8]}[type]||[0,-.5,.3];let dir=who==='you'?-1:1;shuttle.vx+=(you.x-shuttle.x)*.25;shuttle.vy=dir*Math.abs(p[1]);shuttle.vz=p[2];shuttle.lastHit=who;shuttle.active=true}
+function physics(dt){you.x=Math.max(.08,Math.min(.92,you.x+joy.x*dt*.42));you.y=Math.max(.55,Math.min(.94,you.y+joy.y*dt*.38));if(shuttle.active){shuttle.x+=shuttle.vx*dt;shuttle.y+=shuttle.vy*dt;shuttle.z+=shuttle.vz*dt;shuttle.vz-=1.55*dt;if(shuttle.x<.06||shuttle.x>.94){shuttle.vx*=-.8;shuttle.x=Math.max(.06,Math.min(.94,shuttle.x))}if(shuttle.z<=0){shuttle.z=0;let inCourt=shuttle.x>.05&&shuttle.x<.95&&shuttle.y>.08&&shuttle.y<.92;point(shuttle.lastHit==='you'?'opp':'you');shuttle.active=false;return}
+if(mode==='singles'){let targetY=shuttle.vy>0?.82:.18;opp.x+=(shuttle.x-opp.x)*dt*2.8;opp.y+=(targetY-opp.y)*dt*1.7}else{opp.x+=(shuttle.x-opp.x)*dt*2.6;opp.y+=(.18-opp.y)*dt*1.5;opp2.x+=(shuttle.x-opp2.x)*dt*2;opp2.y+=(.3-opp2.y)*dt*1.4;partner.x+=(shuttle.x-partner.x)*dt*2;partner.y+=(.7-partner.y)*dt}
+let defenders=mode==='singles'?[opp]:[opp,opp2];for(const p of defenders){let dist=Math.hypot(shuttle.x-p.x,shuttle.y-p.y);if(dist<.075&&shuttle.y<.46&&shuttle.lastHit==='you'){shuttle.lastHit='opp';shuttle.vy=Math.abs(shuttle.vy)*1.05;shuttle.vx=(.5-p.x)*.5;shuttle.vz=.52;break}}
+if(Math.hypot(shuttle.x-you.x,shuttle.y-you.y)<.08&&shuttle.y>.5&&shuttle.lastHit==='opp'){shuttle.lastHit='you';shuttle.vy=-Math.abs(shuttle.vy)*1.03;shuttle.vx=(.5-you.x)*.6;shuttle.vz=.5}
+}}
+function draw(){const w=canvas.clientWidth,h=canvas.clientHeight;ctx.clearRect(0,0,w,h);let grad=ctx.createLinearGradient(0,0,0,h);grad.addColorStop(0,'#163b4a');grad.addColorStop(1,'#061923');ctx.fillStyle=grad;ctx.fillRect(0,0,w,h);const L=w*.13,R=w*.87,T=h*.09,B=h*.91;ctx.fillStyle='#1d5b4c';ctx.beginPath();ctx.moveTo(L,T);ctx.lineTo(R,T);ctx.lineTo(R,B);ctx.lineTo(L,B);ctx.closePath();ctx.fill();ctx.strokeStyle='#e8fff7';ctx.lineWidth=2;ctx.stroke();ctx.beginPath();ctx.moveTo(L,T+(B-T)*.46);ctx.lineTo(R,T+(B-T)*.46);ctx.moveTo(L,T+(B-T)*.12);ctx.lineTo(R,T+(B-T)*.12);ctx.moveTo(L,T+(B-T)*.88);ctx.lineTo(R,T+(B-T)*.88);ctx.stroke();if(mode==='doubles'){ctx.beginPath();ctx.moveTo(L+(R-L)*.08,T);ctx.lineTo(L+(R-L)*.08,B);ctx.moveTo(R-(R-L)*.08,T);ctx.lineTo(R-(R-L)*.08,B);ctx.stroke()}ctx.strokeStyle='#fff';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(L,h*.5);ctx.lineTo(R,h*.5);ctx.stroke();ctx.strokeStyle='#111a22';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(L,h*.5-3);ctx.lineTo(R,h*.5-3);ctx.stroke();
+const px=x=>L+(R-L)*x,py=y=>T+(B-T)*y;function player(p,label,fill){ctx.fillStyle=fill;ctx.beginPath();ctx.arc(px(p.x),py(p.y),15,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#06131f';ctx.lineWidth=2;ctx.stroke();ctx.fillStyle='#fff';ctx.font='bold 10px system-ui';ctx.textAlign='center';ctx.fillText(label,px(p.x),py(p.y)+3)}
+if(mode==='doubles')player(partner,'P','#60a5fa');player(you,'YOU','#6ee7b7');player(opp,'AI','#fb7185');if(mode==='doubles')player(opp2,'AI','#f97316');
+if(shuttle.active){let sx=px(shuttle.x),sy=py(shuttle.y)-shuttle.z*45;ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(sx,sy,5+shuttle.z*3,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#d9edf7';ctx.lineWidth=2;for(let i=0;i<5;i++){let a=i*Math.PI*2/5;ctx.beginPath();ctx.moveTo(sx,sy);ctx.lineTo(sx+Math.cos(a)*9,sy+Math.sin(a)*9);ctx.stroke()}}}
+function loop(t){if(!running)return;let dt=Math.min((t-last)/1000,.035)||.016;last=t;physics(dt);draw();raf=requestAnimationFrame(loop)}
+document.querySelectorAll('[data-mode]').forEach(b=>b.addEventListener('click',()=>start(b.dataset.mode)));document.querySelectorAll('[data-shot]').forEach(b=>b.addEventListener('click',()=>hit(b.dataset.shot)));$('resetBtn').onclick=()=>{score={you:0,opp:0};match={you:0,opp:0};gameNo=1;$('modal').style.display='none';resetRally()};$('menuBtn').onclick=()=>{running=false;$('game').style.display='none';$('menu').style.display='grid';cancelAnimationFrame(raf);raf=0};
+let joyEl=$('joystick'),knob=$('joyKnob'),active=false;function setJoy(e){let r=joyEl.getBoundingClientRect(),x=(e.clientX-r.left-r.width/2)/(r.width/2),y=(e.clientY-r.top-r.height/2)/(r.height/2),m=Math.hypot(x,y);if(m>1){x/=m;y/=m}joy.x=x;joy.y=y;knob.style.left=(50+x*32)+'%';knob.style.top=(50+y*32)+'%'}function endJoy(){active=false;joy.x=joy.y=0;knob.style.left='50%';knob.style.top='50%'}joyEl.addEventListener('pointerdown',e=>{active=true;joyEl.setPointerCapture(e.pointerId);setJoy(e)});joyEl.addEventListener('pointermove',e=>{if(active)setJoy(e)});joyEl.addEventListener('pointerup',endJoy);joyEl.addEventListener('pointercancel',endJoy);
+addEventListener('keydown',e=>{if(e.key==='ArrowLeft')joy.x=-1;if(e.key==='ArrowRight')joy.x=1;if(e.key==='ArrowUp')joy.y=-1;if(e.key==='ArrowDown')joy.y=1;if(e.key==='1')hit('clear');if(e.key==='2')hit('drop');if(e.key==='3')hit('smash');if(e.key===' ')hit('serve')});addEventListener('keyup',e=>{if(['ArrowLeft','ArrowRight'].includes(e.key))joy.x=0;if(['ArrowUp','ArrowDown'].includes(e.key))joy.y=0});
+})();
+</script>
+</body></html>

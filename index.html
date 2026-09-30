@@ -34,7 +34,7 @@ button{font:inherit;color:inherit;border:0;cursor:pointer}.app,.screen{width:100
 <button class="menuBtn" onclick="challenges()"><b>Challenges</b><small>Daily objectives</small></button>
 <button class="menuBtn" onclick="network()"><b>Local / Online</b><small>Multiplayer phase</small></button>
 </div>
-<div class="panel"><b>Current build</b><div class="row" style="margin-top:8px"><span class="pill">Core rules</span><span class="pill">Shuttle physics</span><span class="pill">Timing hits</span><span class="pill">AI positioning</span></div></div>
+<div class="panel"><b>Current build</b><div class="row" style="margin-top:8px"><span class="pill">Core rules</span><span class="pill">Shuttle physics</span><span class="pill">Timing hits</span><span class="pill">AI positioning</span><span class="pill">Service rotation</span></div></div>
 </div>
 </section>
 <section id="game" class="screen">
@@ -54,7 +54,7 @@ button{font:inherit;color:inherit;border:0;cursor:pointer}.app,.screen{width:100
 const $=id=>document.getElementById(id);
 const S={mode:'singles',diff:2,game:1,you:0,bot:0,server:'you',rally:0,paused:false,selected:+localStorage.char||0,xp:+localStorage.xp||0,level:+localStorage.level||1,coins:+localStorage.coins||1000,wins:+localStorage.wins||0,losses:+localStorage.losses||0};
 const chars=[['Kai','PH','Power',88],['Mina','JP','Control',86],['Rafi','ID','Speed',89],['Ari','MY','Defense',85],['Lina','CN','Net Play',90],['Noah','GB','All-round',87],['Sora','KR','Agility',91],['Maya','IN','Smash',90],['Theo','FR','Tactics',86],['Nia','US','Stamina',88],['Ren','TH','Deception',89],['Asha','SG','Precision',92]];
-let scene,camera,renderer,clock,raf,player,opponent,partner,opponent2,shuttle,shuttleVel=new THREE.Vector3(),shuttleActive=false,target=new THREE.Vector3(),vel=new THREE.Vector3(),lastHit=0;
+let scene,camera,renderer,clock,raf,player,opponent,partner,opponent2,shuttle,shuttleVel=new THREE.Vector3(),shuttleActive=false,target=new THREE.Vector3(),vel=new THREE.Vector3(),lastHit=0,hitCooldown=0,serveFault=false;
 const COURT={halfW:3.05,halfL:6.7,netZ:0,netH:1.524,serviceShort:1.98,serviceLong:5.94,singlesW:2.59};
 function save(){localStorage.xp=S.xp;localStorage.level=S.level;localStorage.coins=S.coins;localStorage.char=S.selected;localStorage.wins=S.wins;localStorage.losses=S.losses}
 function xp(n){S.xp+=n;while(S.xp>=S.level*500){S.xp-=S.level*500;S.level++;S.coins+=500}save()}
@@ -81,30 +81,30 @@ if(S.mode==='doubles'){partner=makePlayer(0x4fa7ff);partner.position.set(-1.6,.0
 const sh=new THREE.Group();const cork=new THREE.Mesh(new THREE.CylinderGeometry(.055,.04,.09,8),new THREE.MeshStandardMaterial({color:0xf2e6c9}));cork.rotation.x=Math.PI/2;sh.add(cork);for(let i=0;i<8;i++){const f=new THREE.Mesh(new THREE.CylinderGeometry(.006,.006,.22,5),new THREE.MeshStandardMaterial({color:0xffffff}));f.rotation.z=(i/8)*Math.PI*2;f.position.y=.07;sh.add(f)}shuttle=sh;scene.add(shuttle);resetShuttle();
 clock=new THREE.Clock();camera.position.set(player.position.x,3.05,player.position.z+6.0);animate()
 }
-function resetShuttle(){shuttle.position.set(S.server==='you'?player.position.x:opponent.position.x,S.server==='you'?1.15:1.15,S.server==='you'?4.2:-4.2);shuttleVel.set(0,0,0);shuttleActive=false}
+function resetShuttle(){shuttle.position.set(S.server==='you'?player.position.x:opponent.position.x,1.25,S.server==='you'?4.2:-4.2);shuttleVel.set(0,0,0);shuttleActive=false;hitCooldown=0;serveFault=false;hud()}
 function launch(from,type){
-const isYou=from==='you', p=isYou?player:opponent, targetZ=isYou?-5.4:5.4;
-const data={clear:[5.0,2.7],drop:[2.8,1.25],smash:[6.8,1.0],drive:[5.5,1.35],lift:[4.5,3.1],net:[2.1,.75]};
-const d=data[type]||data.clear;const tx=(Math.random()-.5)*(S.mode==='doubles'?4.8:4.3);const dx=tx-p.position.x,dz=targetZ-p.position.z;const t=d[0]/Math.max(2.5,Math.abs(dz));shuttle.position.set(p.position.x,p.position.y+1.15,p.position.z-.35*(isYou?1:-1));shuttleVel.set(dx/t,d[1],dz/t);shuttleActive=true;lastHit=performance.now()}
+const isYou=from==='you', p=isYou?player:opponent, targetZ=isYou?-5.35:5.35;
+const data={clear:{time:1.05,apex:3.0},drop:{time:.72,apex:1.7},smash:{time:.62,apex:2.0},drive:{time:.78,apex:1.65},lift:{time:1.18,apex:3.6},net:{time:.58,apex:1.25}};
+const d=data[type]||data.clear;const maxX=S.mode==='doubles'?2.85:2.45;const tx=Math.max(-maxX,Math.min(maxX,p.position.x+(Math.random()-.5)*3.6));const dx=tx-p.position.x,dz=targetZ-p.position.z;const startY=p.position.y+1.12;const g=9.81;const t=d.time;const vy=(d.apex-startY+.5*g*(t*.5)*(t*.5))/(t*.5);shuttle.position.set(p.position.x,startY,p.position.z-.25*(isYou?1:-1));shuttleVel.set(dx/t,vy,dz/t);shuttleActive=true;lastHit=performance.now();hitCooldown=.18}
 function updateShuttle(dt){
 if(!shuttleActive)return;shuttle.position.addScaledVector(shuttleVel,dt);shuttleVel.y-=5.4*dt;shuttle.rotation.z+=dt*8;
-if(Math.abs(shuttle.position.z)<.08 && shuttle.position.y<1.55){shuttleActive=false;point('bot','NET');return}
+if(Math.abs(shuttle.position.z)<.06 && shuttleVel.z!==0){const netY=1.524;const ratio=Math.abs(shuttle.position.z)/(Math.abs(shuttleVel.z)*dt);const crossingY=shuttle.position.y-shuttleVel.y*ratio;if(crossingY<netY){shuttleActive=false;point(shuttleVel.z<0?'bot':'you','NET');return}}
 const landingSide=shuttle.position.z<0?'bot':'you';
 const groundY=.13;if(shuttle.position.y<=groundY){const x=shuttle.position.x;const inCourt=Math.abs(x)<=3.05 && Math.abs(shuttle.position.z)<=6.7;if(inCourt){point(landingSide,'LAND')}else point(landingSide==='you'?'bot':'you','OUT');return}
-if(shuttle.position.z<0 && shuttleVel.z<0 && shuttle.position.y<2.5 && performance.now()-lastHit>350){aiReturn();}}
+if(shuttle.position.z<0 && shuttleVel.z<0 && performance.now()-lastHit>220){aiReturn();}}
 function aiReturn(){
-if(!shuttleActive)return;const reach=Math.abs(shuttle.position.x-opponent.position.x);const skill=.32+S.diff*.09;if(reach>2.1 || Math.random()>skill){shuttleActive=false;point('you','MISS');return}
-opponent.position.x += (shuttle.position.x-opponent.position.x)*.5;const r=Math.random();const type=r<.18?'smash':r<.4?'drop':r<.65?'drive':r<.82?'clear':'net';launch('bot',type)
+if(!shuttleActive)return;const reach=Math.hypot(shuttle.position.x-opponent.position.x,shuttle.position.z-opponent.position.z);const skill=.28+S.diff*.11;const maxReach=1.15+S.diff*.12;if(reach>maxReach||Math.random()>skill){shuttleActive=false;point('you','MISS');return}
+opponent.position.x+=(shuttle.position.x-opponent.position.x)*.75;opponent.position.z=Math.max(-6.0,Math.min(-1.0,shuttle.position.z+.45));if(S.mode==='doubles'&&opponent2){opponent2.position.x+=(shuttle.position.x-opponent2.position.x)*.35}const r=Math.random();const type=r<.16?'smash':r<.36?'drop':r<.62?'drive':r<.84?'clear':'net';launch('bot',type)
 }
 function hit(type){
-if(S.paused||shuttleActive&&shuttle.position.z<0===false)return;
-if(S.server==='you'&&S.rally===0){S.rally=1;launch('you','clear');call('SERVE',250);return}
+if(S.paused||hitCooldown>0)return;if(shuttleActive&&shuttle.position.z>=0)return;
+if(S.server==='you'&&S.rally===0){const legalX=S.you%2===0?player.position.x>=0:player.position.x<0;if(Math.abs(player.position.x)>2.55||!legalX){call('SERVICE FAULT',500);setTimeout(()=>point('bot','SERVICE'),450);return}S.rally=1;launch('you','clear');call('SERVE',250);return}
 if(!shuttleActive){call('WAIT',250);return}
 const dx=Math.abs(shuttle.position.x-player.position.x),dz=Math.abs(shuttle.position.z-player.position.z);const range=.85+(chars[S.selected][3]-80)*.015;
 if(dx>range||dz>1.15||shuttle.position.y<.45||shuttle.position.y>2.8){call('MISS',350);setTimeout(()=>point('bot','MISS'),350);return}
 const timing=Math.max(0,1-Math.abs(shuttle.position.y-1.45)/1.3);const quality=timing+(chars[S.selected][3]-80)/100;
 if(Math.random()>Math.min(.98,.55+quality*.35)){call('ERROR',300);setTimeout(()=>point('bot','ERROR'),300);return}
-S.rally++;const staminaCost={clear:5,drop:4,smash:9,drive:6,lift:5,net:4}[type];S.stamina=Math.max(0,S.stamina-staminaCost);launch('you',type);call(type.toUpperCase(),180)}
+S.rally++;hitCooldown=.28;const staminaCost={clear:5,drop:4,smash:9,drive:6,lift:5,net:4}[type];S.stamina=Math.max(0,S.stamina-staminaCost);launch('you',type);call(type.toUpperCase(),180)}
 function point(who,reason){
 if(S.paused)return;S[who==='you'?'you':'bot']++;S.server=who;S.rally=0;xp(8);hud();call((who==='you'?'POINT YOU':'POINT BOT'),600);resetShuttle();
 const a=S.you,b=S.bot;const finished=(Math.max(a,b)>=21&&Math.abs(a-b)>=2)||a===30||b===30;if(finished)setTimeout(()=>endGame(a>b?'you':'bot'),750)
@@ -120,16 +120,16 @@ function exit(){S.paused=false;$('game').style.display='none';$('menu').style.di
 function animate(){
 raf=requestAnimationFrame(animate);const dt=Math.min(clock.getDelta(),.033);
 if(!S.paused){
-const speed=2.5+(chars[S.selected][3]-80)*.025;vel.lerp(target,.16);player.position.addScaledVector(vel,dt*speed);const w=S.mode==='doubles'?2.8:2.55;player.position.x=Math.max(-w,Math.min(w,player.position.x));player.position.z=Math.max(1.1,Math.min(6.2,player.position.z));
+if(hitCooldown>0)hitCooldown=Math.max(0,hitCooldown-dt);const speed=2.5+(chars[S.selected][3]-80)*.025;vel.lerp(target,.16);player.position.addScaledVector(vel,dt*speed);const w=S.mode==='doubles'?2.8:2.55;player.position.x=Math.max(-w,Math.min(w,player.position.x));player.position.z=Math.max(1.1,Math.min(6.2,player.position.z));
 if(S.mode==='doubles'){partner.position.x+=(player.position.x<0?-.8:1.0-partner.position.x)*dt*.5;partner.position.x=Math.max(-2.4,Math.min(2.4,partner.position.x))}
 if(S.stamina<100)S.stamina=Math.min(100,S.stamina+dt*(S.stamina<25?3.2:1.1));$('stam').style.width=S.stamina+'%';updateShuttle(dt);
-const desiredX=player.position.x,desiredZ=player.position.z+5.8;camera.position.x+=(desiredX-camera.position.x)*.09;camera.position.z+=(desiredZ-camera.position.z)*.09;camera.position.y+=(3.0-camera.position.y)*.08;camera.lookAt(player.position.x*.18,.75,player.position.z*.25)
+const desiredX=player.position.x,desiredZ=player.position.z+5.8;camera.position.x+=(desiredX-camera.position.x)*.09;camera.position.z+=(desiredZ-camera.position.z)*.09;camera.position.y+=(3.0-camera.position.y)*.08;const camDx=camera.position.x-player.position.x,camDz=camera.position.z-player.position.z,camDist=Math.hypot(camDx,camDz);if(camDist<5){const k=5/camDist;camera.position.x=player.position.x+camDx*k;camera.position.z=player.position.z+camDz*k}if(camDist>7){const k=7/camDist;camera.position.x=player.position.x+camDx*k;camera.position.z=player.position.z+camDz*k}camera.lookAt(player.position.x*.18,.75,player.position.z*.25)
 }renderer.render(scene,camera)
 }
 let dragging=false;
 function moveJoy(e){const r=$('joy').getBoundingClientRect();let x=(e.clientX-r.left-r.width/2)/(r.width/2),y=(e.clientY-r.top-r.height/2)/(r.height/2);const m=Math.min(1,Math.hypot(x,y));if(m>1){x/=m;y/=m}$('knob').style.transform='translate(calc(-50% + '+x*30+'px),calc(-50% + '+y*30+'px))';target.set(x,0,-y)}
 $('joy').addEventListener('pointerdown',e=>{dragging=true;$('joy').setPointerCapture(e.pointerId);moveJoy(e)});$('joy').addEventListener('pointermove',e=>{if(dragging)moveJoy(e)});$('joy').addEventListener('pointerup',()=>{dragging=false;$('knob').style.transform='translate(-50%,-50%)';target.set(0,0,0)});$('joy').addEventListener('pointercancel',()=>{dragging=false;target.set(0,0,0)});
 addEventListener('resize',()=>{if(renderer){camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)}});
-$('level').textContent=S.level;$('coins').textContent=S.coins;
+
 </script>
 </body></html>

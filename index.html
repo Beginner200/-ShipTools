@@ -5,111 +5,131 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Smash Court</title>
 <style>
-:root{--bg:#071018;--panel:#0e1b26;--panel2:#132634;--line:#284252;--text:#f5fbff;--muted:#9bb0bd;--accent:#53e6a8;--gold:#ffd66b;--danger:#ff6978}
-*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,sans-serif;overflow:hidden}
-button{font:inherit;color:inherit;border:0;cursor:pointer}.app{width:100%;height:100%;position:relative}
-.menu{height:100%;display:flex;align-items:center;justify-content:center;padding:24px;background:radial-gradient(circle at 50% 15%,#17394a 0,#071018 55%)}
-.menu-card{width:min(720px,94vw);max-height:94vh;overflow:auto;background:rgba(14,27,38,.92);border:1px solid var(--line);border-radius:24px;padding:24px;box-shadow:0 20px 80px #0008}
-.logo{display:flex;align-items:center;gap:12px;font-weight:900;font-size:32px}.logo span{color:var(--accent)}.subtitle{color:var(--muted);margin:4px 0 22px}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.cardbtn{background:linear-gradient(145deg,#173140,#0d1c27);border:1px solid #315061;border-radius:16px;padding:18px;text-align:left;min-height:90px}.cardbtn b{display:block;font-size:18px}.cardbtn small{color:var(--muted)}.cardbtn:hover{border-color:var(--accent)}
-.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.pill{padding:7px 10px;border-radius:999px;background:#172b38;color:var(--muted);font-size:12px}
-.panel{background:#0c1923;border:1px solid var(--line);border-radius:16px;padding:14px;margin-top:14px}.panel h3{margin:0 0 8px}.stat{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #1b303d}.stat:last-child{border:0}
-.game{display:none;width:100%;height:100%;position:relative;background:#061018}.game.active{display:block}
-#scene{position:absolute;inset:0}.hud{position:absolute;top:max(8px,env(safe-area-inset-top));left:8px;right:8px;display:flex;justify-content:space-between;align-items:flex-start;z-index:5;pointer-events:none}.scorebox{background:#07151fe8;border:1px solid #355363;border-radius:13px;padding:6px 10px;min-width:130px;text-align:center}.scorebox .names{font-size:10px;color:var(--muted)}.score{font-size:25px;font-weight:900;line-height:1}.centerhud{text-align:center}.gamebadge{background:#07151fe8;border:1px solid #355363;padding:6px 10px;border-radius:999px;font-size:11px}.serve{font-size:10px;color:var(--accent);margin-top:4px}.pause{pointer-events:auto;background:#122733;border:1px solid #456273;padding:7px 10px;border-radius:10px}
-.call{position:absolute;left:50%;top:22%;transform:translate(-50%,-50%);font-size:38px;font-weight:1000;text-shadow:0 4px 16px #000;opacity:0;z-index:6;transition:.15s}.call.show{opacity:1}
-.controls{position:absolute;left:0;right:0;bottom:max(10px,env(safe-area-inset-bottom));z-index:5;display:flex;justify-content:space-between;align-items:end;padding:0 14px;pointer-events:none}.joystick{width:116px;height:116px;border-radius:50%;background:#ffffff10;border:2px solid #ffffff2a;position:relative;pointer-events:auto}.knob{width:48px;height:48px;border-radius:50%;background:#dfffee;color:#062014;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);box-shadow:0 5px 18px #0008}.shots{display:grid;grid-template-columns:repeat(3,72px);gap:7px;pointer-events:auto}.shot{height:52px;border-radius:13px;background:#112733e8;border:1px solid #3c5c6d;font-size:11px;font-weight:800}.shot.main{background:#2f9f79}.shot:active{transform:scale(.96)}
-.stamina{position:absolute;left:50%;bottom:9px;transform:translateX(-50%);width:150px;height:7px;background:#ffffff22;border-radius:9px;z-index:5}.stamina i{display:block;height:100%;width:100%;background:var(--accent);border-radius:inherit}
-.modal{position:absolute;inset:0;background:#0009;display:none;align-items:center;justify-content:center;z-index:20;padding:18px}.modal.show{display:flex}.modalbox{width:min(500px,92vw);background:#0d1b25;border:1px solid #355364;border-radius:20px;padding:20px}.modalbox h2{margin-top:0}.action{background:var(--accent);color:#061b12;padding:11px 15px;border-radius:11px;font-weight:900}.secondary{background:#172b38;padding:11px 15px;border-radius:11px}.char-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-height:55vh;overflow:auto}.char{background:#142734;border:1px solid #2e4b5b;border-radius:12px;padding:9px}.char.selected{border-color:var(--accent)}.avatar{height:60px;border-radius:10px;background:linear-gradient(135deg,#355d72,#182b37);display:grid;place-items:center;font-size:28px}
-@media (orientation:portrait){.game.active:before{content:'ROTATE TO LANDSCAPE';position:absolute;inset:0;z-index:50;background:#071018;display:grid;place-items:center;font-weight:900;letter-spacing:2px;font-size:18px}.controls{display:none}}
-@media (max-width:700px) and (orientation:landscape){.shots{grid-template-columns:repeat(3,64px);gap:5px}.shot{height:46px}.joystick{width:96px;height:96px}.knob{width:42px;height:42px}.scorebox{min-width:108px}.score{font-size:21px}}
+:root{--bg:#061014;--panel:#0b1b24;--line:#345261;--text:#f4fbff;--muted:#9bb1bc;--accent:#53e6a8;--gold:#ffd86a;--danger:#ff6474}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,sans-serif}
+button{font:inherit;color:inherit;border:0;cursor:pointer}.app,.screen{width:100%;height:100%}.menu{display:flex;align-items:center;justify-content:center;padding:20px;background:radial-gradient(circle at 50% 15%,#174454,#061014 60%)}
+.card{width:min(820px,94vw);max-height:94vh;overflow:auto;background:#0b1b24ee;border:1px solid var(--line);border-radius:24px;padding:24px;box-shadow:0 25px 90px #0009}
+.logo{font-size:34px;font-weight:950}.logo span{color:var(--accent)}.sub{color:var(--muted);margin:4px 0 20px}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.menuBtn{padding:18px;text-align:left;min-height:90px;border-radius:16px;background:linear-gradient(145deg,#173541,#0b1d27);border:1px solid #315161}.menuBtn b{display:block;font-size:18px}.menuBtn small{color:var(--muted)}
+.panel{margin-top:14px;padding:14px;border:1px solid #294452;border-radius:15px;background:#081720}.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.pill{background:#172c37;border-radius:999px;padding:7px 10px;color:var(--muted);font-size:12px}
+#game{display:none;position:relative;background:#071014}.gameCanvas{position:absolute;inset:0}.hud{position:absolute;z-index:5;left:10px;right:10px;top:max(8px,env(safe-area-inset-top));display:flex;justify-content:space-between;pointer-events:none}.score{background:#07151fe8;border:1px solid #3a5866;border-radius:14px;padding:7px 12px;text-align:center;min-width:145px}.score b{font-size:25px}.names{font-size:10px;color:var(--muted)}.mid{text-align:center}.badge{display:inline-block;background:#07151fe8;border:1px solid #3a5866;padding:6px 10px;border-radius:999px;font-size:11px}.serve{font-size:10px;color:var(--accent);margin-top:4px}.pause{pointer-events:auto;background:#142b36;border:1px solid #45616e;border-radius:10px;padding:8px 11px}
+.controls{position:absolute;z-index:5;left:0;right:0;bottom:max(10px,env(safe-area-inset-bottom));display:flex;justify-content:space-between;align-items:end;padding:0 15px;pointer-events:none}.joy{width:112px;height:112px;border-radius:50%;border:2px solid #ffffff2c;background:#ffffff0d;pointer-events:auto;position:relative}.knob{width:45px;height:45px;border-radius:50%;background:#dfffee;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);box-shadow:0 5px 20px #0009}.shots{display:grid;grid-template-columns:repeat(3,70px);gap:6px;pointer-events:auto}.shot{height:48px;border-radius:12px;background:#112833ed;border:1px solid #3e5d6c;font-size:10px;font-weight:850}.shot.smash{background:#2e9c78}.shot:active{transform:scale(.95)}
+.stamina{position:absolute;z-index:6;bottom:11px;left:50%;transform:translateX(-50%);width:150px;height:7px;background:#fff2;border-radius:9px}.stamina i{display:block;width:100%;height:100%;background:var(--accent);border-radius:inherit}
+.overlay{position:absolute;z-index:20;inset:0;background:#0009;display:none;align-items:center;justify-content:center;padding:18px}.box{width:min(540px,92vw);max-height:90vh;overflow:auto;background:#0b1b24;border:1px solid #3b5967;border-radius:20px;padding:20px}.action{background:var(--accent);color:#062016;padding:11px 15px;border-radius:11px;font-weight:900}.secondary{background:#172c37;padding:11px 15px;border-radius:11px}.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.stat{padding:9px;border-radius:10px;background:#122833}.stat small{display:block;color:var(--muted)}.stat b{font-size:17px}
+.call{position:absolute;z-index:10;left:50%;top:24%;transform:translate(-50%,-50%) scale(.9);font-size:36px;font-weight:950;text-shadow:0 5px 18px #000;opacity:0;transition:.15s;pointer-events:none}.call.show{opacity:1;transform:translate(-50%,-50%) scale(1)}
+@media(orientation:portrait){#game.active:before{content:'ROTATE TO LANDSCAPE';position:absolute;inset:0;z-index:100;display:grid;place-items:center;background:#061014;font-weight:900;letter-spacing:2px;font-size:18px}}
+@media(max-width:700px) and (orientation:landscape){.joy{width:94px;height:94px}.knob{width:40px;height:40px}.shots{grid-template-columns:repeat(3,62px)}.shot{height:44px}.score{min-width:110px}.score b{font-size:21px}}
 </style>
 </head>
 <body>
 <div class="app">
-<section id="menu" class="menu">
-<div class="menu-card">
+<section id="menu" class="screen menu">
+<div class="card">
 <div class="logo">🏸 <span>SMASH</span> COURT</div>
-<div class="subtitle">3D badminton foundation • singles • doubles • bot practice</div>
+<div class="sub">3D mobile badminton • real court geometry • timing-based rallies</div>
 <div class="grid">
-<button class="cardbtn" onclick="openSetup('singles')"><b>Singles</b><small>1 vs 1 regulation court</small></button>
-<button class="cardbtn" onclick="openSetup('doubles')"><b>Doubles</b><small>2 vs 2 with AI partners</small></button>
-<button class="cardbtn" onclick="showChars()"><b>Characters</b><small>Choose your player</small></button>
-<button class="cardbtn" onclick="showProfile()"><b>Profile</b><small>Progress, XP and stats</small></button>
-<button class="cardbtn" onclick="showChallenges()"><b>Challenges</b><small>Daily objectives</small></button>
-<button class="cardbtn" onclick="showLocal()"><b>Local / Online</b><small>Room prototype and network plan</small></button>
+<button class="menuBtn" onclick="setup('singles')"><b>Singles Match</b><small>1 vs 1 regulation court</small></button>
+<button class="menuBtn" onclick="setup('doubles')"><b>Doubles Match</b><small>2 vs 2 court and positioning</small></button>
+<button class="menuBtn" onclick="characters()"><b>Characters</b><small>Choose player and attributes</small></button>
+<button class="menuBtn" onclick="profile()"><b>Profile</b><small>XP, level and match record</small></button>
+<button class="menuBtn" onclick="challenges()"><b>Challenges</b><small>Daily objectives</small></button>
+<button class="menuBtn" onclick="network()"><b>Local / Online</b><small>Multiplayer phase</small></button>
 </div>
-<div class="panel"><h3>Quick progress</h3><div class="row"><span class="pill">Level <b id="level">1</b></span><span class="pill">Coins <b id="coins">1000</b></span><span class="pill">Rank <b>Bronze III</b></span></div></div>
-</div></section>
-<section id="game" class="game">
-<div id="scene"></div>
-<div class="hud">
-<div class="scorebox"><div class="names">YOU <span id="oppname">VS BOT</span></div><div class="score"><span id="youScore">0</span> — <span id="botScore">0</span></div></div>
-<div class="centerhud"><div class="gamebadge">GAME <span id="gameNo">1</span> / 3</div><div class="serve" id="serveText">YOU SERVE • RIGHT</div></div>
-<button class="pause" onclick="pauseGame()">Ⅱ</button>
+<div class="panel"><b>Current build</b><div class="row" style="margin-top:8px"><span class="pill">Core rules</span><span class="pill">Shuttle physics</span><span class="pill">Timing hits</span><span class="pill">AI positioning</span></div></div>
 </div>
+</section>
+<section id="game" class="screen">
+<div id="scene" class="gameCanvas"></div>
+<div class="hud"><div class="score"><div class="names">YOU <span id="opp">VS BOT</span></div><b><span id="ys">0</span> — <span id="bs">0</span></b></div><div class="mid"><div class="badge">GAME <span id="gn">1</span>/3</div><div id="serve" class="serve">YOU SERVE • RIGHT</div></div><button class="pause" onclick="pause()">Ⅱ</button></div>
 <div id="call" class="call"></div>
-<div class="controls">
-<div id="joy" class="joystick"><div id="knob" class="knob"></div></div>
-<div class="shots">
-<button class="shot" onclick="playerShot('clear')">CLEAR</button><button class="shot" onclick="playerShot('drop')">DROP</button><button class="shot main" onclick="playerShot('smash')">SMASH</button>
-<button class="shot" onclick="playerShot('drive')">DRIVE</button><button class="shot" onclick="playerShot('lift')">LIFT</button><button class="shot" onclick="playerShot('net')">NET</button>
+<div class="controls"><div id="joy" class="joy"><div id="knob" class="knob"></div></div><div class="shots">
+<button class="shot" onclick="hit('clear')">CLEAR</button><button class="shot" onclick="hit('drop')">DROP</button><button class="shot smash" onclick="hit('smash')">SMASH</button>
+<button class="shot" onclick="hit('drive')">DRIVE</button><button class="shot" onclick="hit('lift')">LIFT</button><button class="shot" onclick="hit('net')">NET</button>
 </div></div>
-<div class="stamina"><i id="stamina"></i></div>
-<div id="modal" class="modal"><div id="modalbox" class="modalbox"></div></div>
-</section></div>
+<div class="stamina"><i id="stam"></i></div>
+<div id="overlay" class="overlay"><div id="box" class="box"></div></div>
+</section>
+</div>
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 <script>
 const $=id=>document.getElementById(id);
-const state={mode:'singles',game:1,you:0,bot:0,paused:false,serving:'you',serveSide:'Right',rally:0,stamina:100,selected:0,coins:+localStorage.coins||1000,xp:+localStorage.xp||0,level:+localStorage.level||1};
-const chars=[
-['Kai','PH','Power','⚡'],['Mina','JP','Control','🌸'],['Rafi','ID','Speed','🔥'],['Ari','MY','Defense','🛡️'],['Lina','CN','Net Play','🎯'],['Noah','GB','All-round','🏸'],
-['Sora','KR','Agility','💨'],['Maya','IN','Smash','⚡'],['Theo','FR','Tactics','🧠'],['Nia','US','Stamina','💪'],['Ren','TH','Deception','🎭'],['Asha','SG','Precision','✨']
-];
-let scene,camera,renderer,clock,player,bot,partner,bot2,shuttle,net,raf;
-function save(){localStorage.coins=state.coins;localStorage.xp=state.xp;localStorage.level=state.level}
-function addXP(n){state.xp+=n;if(state.xp>=state.level*500){state.xp-=state.level*500;state.level++;state.coins+=500}save()}
-function modal(html){$('modalbox').innerHTML=html;$('modal').classList.add('show')}
-function closeModal(){$('modal').classList.remove('show')}
-function showChars(){modal('<h2>Characters</h2><p class="subtitle">12 launch-ready profiles. Stats are balanced by role.</p><div class="char-grid">'+chars.map((c,i)=>'<div class="char '+(i===state.selected?'selected':'')+'" onclick="selectChar('+i+')"><div class="avatar">'+c[3]+'</div><b>'+c[0]+'</b><small>'+c[1]+' • '+c[2]+'</small><div class="stat"><span>Overall</span><b>'+[78,80,79,77,82,81,84,83,80,79,82,85][i]+'</b></div></div>').join('')+'</div><br><button class="secondary" onclick="closeModal()">Close</button>')}
-function selectChar(i){state.selected=i;showChars()}
-function showProfile(){modal('<h2>Player Profile</h2><div class="stat"><span>Level</span><b>'+state.level+'</b></div><div class="stat"><span>XP</span><b>'+state.xp+'</b></div><div class="stat"><span>Rank</span><b>Bronze III</b></div><div class="stat"><span>Coins</span><b>'+state.coins+'</b></div><div class="stat"><span>Selected</span><b>'+chars[state.selected][0]+'</b></div><br><button class="secondary" onclick="closeModal()">Close</button>')}
-function showChallenges(){modal('<h2>Daily Challenges</h2><p>✓ Play 1 match — <b>100 XP</b></p><p>○ Hit 5 smashes — <b>150 coins</b></p><p>○ Win a rally of 10+ shots — <b>200 XP</b></p><p class="subtitle">Server-backed daily rotation will be connected in the online backend phase.</p><button class="secondary" onclick="closeModal()">Close</button>')}
-function showLocal(){modal('<h2>Multiplayer</h2><p><b>Local Wi-Fi / hotspot</b></p><p>Room discovery, ready checks and synchronized match state are reserved for the network phase. The current build provides the full offline gameplay foundation.</p><p><b>Online</b><br>Server-authoritative matchmaking will be connected after the core rules/AI pass.</p><button class="secondary" onclick="closeModal()">Close</button>')}
-function openSetup(mode){state.mode=mode;modal('<h2>'+mode.toUpperCase()+' MATCH</h2><p>Choose bot difficulty.</p><div class="row"><button class="secondary" onclick="startGame(1)">Bronze</button><button class="secondary" onclick="startGame(2)">Silver</button><button class="secondary" onclick="startGame(3)">Gold</button><button class="secondary" onclick="startGame(4)">Platinum</button><button class="secondary" onclick="startGame(5)">Diamond</button></div><p class="subtitle">Regulation scoring: 21, win by 2, cap 30. Deciding game changes ends at 11.</p><button class="secondary" onclick="closeModal()">Cancel</button>')}
-function startGame(diff){closeModal();$('menu').style.display='none';$('game').classList.add('active');state.diff=diff;state.game=1;state.you=0;state.bot=0;state.serving='you';state.rally=0;state.stamina=100;init3D();updateHUD();showCall('READY',600)}
-function makePlayer(color){const g=new THREE.Group();const body=new THREE.Mesh(new THREE.CapsuleGeometry(.22,.72,6,12),new THREE.MeshStandardMaterial({color}));body.position.y=.65;g.add(body);const head=new THREE.Mesh(new THREE.SphereGeometry(.18,12,10),new THREE.MeshStandardMaterial({color:0xf0c7a5}));head.position.y=1.2;g.add(head);const racket=new THREE.Group();const h=new THREE.Mesh(new THREE.CylinderGeometry(.025,.025,.38,8),new THREE.MeshStandardMaterial({color:0xeeeeee}));h.rotation.z=Math.PI/2;racket.add(h);const r=new THREE.Mesh(new THREE.TorusGeometry(.13,.018,8,24),new THREE.MeshStandardMaterial({color:0xffffff}));r.position.x=.22;racket.add(r);racket.rotation.z=-.3;racket.position.set(.18,.78,.08);g.add(racket);return g}
-function init3D(){
-cancelAnimationFrame(raf);scene=new THREE.Scene();scene.background=new THREE.Color(0x071018);
-camera=new THREE.PerspectiveCamera(48,innerWidth/innerHeight,.1,100);camera.position.set(0,3.2,6.2);camera.lookAt(0,.6,0);
-renderer=new THREE.WebGLRenderer({antialias:true,powerPreference:'high-performance'});renderer.setPixelRatio(Math.min(devicePixelRatio,1.6));renderer.setSize(innerWidth,innerHeight);renderer.shadowMap.enabled=true;$('scene').innerHTML='';$('scene').appendChild(renderer.domElement);
-const amb=new THREE.HemisphereLight(0xddefff,0x15202a,2.2);scene.add(amb);const light=new THREE.DirectionalLight(0xffffff,2.5);light.position.set(3,8,4);light.castShadow=true;scene.add(light);
-const floor=new THREE.Mesh(new THREE.BoxGeometry(9,.12,16),new THREE.MeshStandardMaterial({color:0x176b59,roughness:.65}));floor.receiveShadow=true;floor.position.y=-.06;scene.add(floor);
-const court=new THREE.Mesh(new THREE.BoxGeometry(6.1,.02,13.4),new THREE.MeshStandardMaterial({color:0x16806a,roughness:.55}));court.position.y=.01;scene.add(court);
-function line(x,z,sx,sz){const m=new THREE.Mesh(new THREE.BoxGeometry(sx,.025,sz),new THREE.MeshBasicMaterial({color:0xffffff}));m.position.set(x,.04,z);scene.add(m)}
-line(0,-6.7,6.1,.035);line(0,6.7,6.1,.035);line(-3.05,0,.035,13.4);line(3.05,0,.035,13.4);line(-2.59,0,.025,13.4);line(2.59,0,.025,13.4);line(0,-1.98,5.18,.025);line(0,1.98,5.18,.025);line(0,0,.025,13.4);
-net=new THREE.Mesh(new THREE.BoxGeometry(6.3,1.55,.035),new THREE.MeshBasicMaterial({color:0x18232a,transparent:true,opacity:.6}));net.position.y=.775;scene.add(net);
-[-3.1,3.1].forEach(x=>{const p=new THREE.Mesh(new THREE.CylinderGeometry(.04,.04,1.7,10),new THREE.MeshStandardMaterial({color:0xdddddd}));p.position.set(x,.85,0);scene.add(p)});
-player=makePlayer(0x3ee0a1);player.position.set(0,.05,5.0);scene.add(player);bot=makePlayer(0xff6978);bot.position.set(0,.05,-5);scene.add(bot);
-if(state.mode==='doubles'){partner=makePlayer(0x50a7ff);partner.position.set(-1.7,.05,4.5);scene.add(partner);bot2=makePlayer(0xffc85a);bot2.position.set(1.7,.05,-4.5);scene.add(bot2)}
-shuttle=new THREE.Mesh(new THREE.SphereGeometry(.07,10,8),new THREE.MeshStandardMaterial({color:0xf5f5e8}));shuttle.position.set(0,1.2,3);scene.add(shuttle);
-clock=new THREE.Clock();animate()
+const S={mode:'singles',diff:2,game:1,you:0,bot:0,server:'you',rally:0,paused:false,selected:+localStorage.char||0,xp:+localStorage.xp||0,level:+localStorage.level||1,coins:+localStorage.coins||1000,wins:+localStorage.wins||0,losses:+localStorage.losses||0};
+const chars=[['Kai','PH','Power',88],['Mina','JP','Control',86],['Rafi','ID','Speed',89],['Ari','MY','Defense',85],['Lina','CN','Net Play',90],['Noah','GB','All-round',87],['Sora','KR','Agility',91],['Maya','IN','Smash',90],['Theo','FR','Tactics',86],['Nia','US','Stamina',88],['Ren','TH','Deception',89],['Asha','SG','Precision',92]];
+let scene,camera,renderer,clock,raf,player,opponent,partner,opponent2,shuttle,shuttleVel=new THREE.Vector3(),shuttleActive=false,target=new THREE.Vector3(),vel=new THREE.Vector3(),lastHit=0;
+const COURT={halfW:3.05,halfL:6.7,netZ:0,netH:1.524,serviceShort:1.98,serviceLong:5.94,singlesW:2.59};
+function save(){localStorage.xp=S.xp;localStorage.level=S.level;localStorage.coins=S.coins;localStorage.char=S.selected;localStorage.wins=S.wins;localStorage.losses=S.losses}
+function xp(n){S.xp+=n;while(S.xp>=S.level*500){S.xp-=S.level*500;S.level++;S.coins+=500}save()}
+function modal(html){$('box').innerHTML=html;$('overlay').style.display='flex'}
+function close(){ $('overlay').style.display='none'}
+function setup(mode){S.mode=mode;modal('<h2>'+mode.toUpperCase()+'</h2><p>Select difficulty.</p><div class="row"><button class="secondary" onclick="start(1)">Bronze</button><button class="secondary" onclick="start(2)">Silver</button><button class="secondary" onclick="start(3)">Gold</button><button class="secondary" onclick="start(4)">Platinum</button><button class="secondary" onclick="start(5)">Diamond</button></div><p class="sub">21 points, win by 2, cap 30. Best of 3.</p><button class="secondary" onclick="close()">Cancel</button>')}
+function characters(){modal('<h2>Characters</h2><p class="sub">Attributes now affect movement, stamina and shot quality.</p><div class="stats">'+chars.map((c,i)=>'<button class="stat" style="text-align:left;border:1px solid '+(i===S.selected?'#53e6a8':'transparent')+'" onclick="S.selected='+i+';save();characters()"><b>'+c[0]+'</b><small>'+c[1]+' • '+c[2]+'</small><b>OVR '+c[3]+'</b></button>').join('')+'</div><br><button class="secondary" onclick="close()">Close</button>')}
+function profile(){modal('<h2>Player Profile</h2><div class="stats"><div class="stat"><small>Level</small><b>'+S.level+'</b></div><div class="stat"><small>XP</small><b>'+S.xp+'</b></div><div class="stat"><small>Coins</small><b>'+S.coins+'</b></div><div class="stat"><small>Record</small><b>'+S.wins+' - '+S.losses+'</b></div><div class="stat"><small>Player</small><b>'+chars[S.selected][0]+'</b></div><div class="stat"><small>Style</small><b>'+chars[S.selected][2]+'</b></div></div><br><button class="secondary" onclick="close()">Close</button>')}
+function challenges(){modal('<h2>Challenges</h2><p>○ Play a complete match — <b>100 XP</b></p><p>○ Hit 3 smashes in one game — <b>150 coins</b></p><p>○ Reach a 10-shot rally — <b>200 XP</b></p><p class="sub">Daily server rotation comes with the backend phase.</p><button class="secondary" onclick="close()">Close</button>')}
+function network(){modal('<h2>Multiplayer</h2><p><b>Next network phase:</b> local Wi-Fi/hotspot rooms, ready state and synchronized shuttle state.</p><p>Online matchmaking and server authority will follow after the core gameplay is stable.</p><button class="secondary" onclick="close()">Close</button>')}
+function start(diff){close();$('menu').style.display='none';$('game').style.display='block';S.diff=diff;S.game=1;S.you=0;S.bot=0;S.server='you';S.rally=0;S.paused=false;init();hud();call('READY',700)}
+function makePlayer(bodyColor){const g=new THREE.Group();const body=new THREE.Mesh(new THREE.CapsuleGeometry(.22,.68,6,12),new THREE.MeshStandardMaterial({color:bodyColor,roughness:.7}));body.position.y=.65;body.castShadow=true;g.add(body);const head=new THREE.Mesh(new THREE.SphereGeometry(.18,14,12),new THREE.MeshStandardMaterial({color:0xf0c5a0}));head.position.y=1.18;head.castShadow=true;g.add(head);const hair=new THREE.Mesh(new THREE.SphereGeometry(.19,12,8,0,Math.PI*2,0,Math.PI*.55),new THREE.MeshStandardMaterial({color:0x20252a}));hair.position.y=1.25;g.add(hair);const arm=new THREE.Mesh(new THREE.CapsuleGeometry(.055,.42,5,8),new THREE.MeshStandardMaterial({color:bodyColor}));arm.position.set(.25,.8,.02);arm.rotation.z=-.7;g.add(arm);const racket=new THREE.Group();const grip=new THREE.Mesh(new THREE.CylinderGeometry(.025,.025,.36,8),new THREE.MeshStandardMaterial({color:0xeeeeee}));grip.rotation.z=Math.PI/2;racket.add(grip);const headR=new THREE.Mesh(new THREE.TorusGeometry(.13,.018,8,24),new THREE.MeshStandardMaterial({color:0xffffff}));headR.position.x=.22;racket.add(headR);racket.position.set(.25,.8,.1);g.add(racket);g.userData.racket=racket;return g}
+function courtLine(x,z,w,d){const m=new THREE.Mesh(new THREE.BoxGeometry(w,.025,d),new THREE.MeshBasicMaterial({color:0xffffff}));m.position.set(x,.045,z);scene.add(m)}
+function init(){
+cancelAnimationFrame(raf);scene=new THREE.Scene();scene.background=new THREE.Color(0x061014);camera=new THREE.PerspectiveCamera(50,innerWidth/innerHeight,.1,100);renderer=new THREE.WebGLRenderer({antialias:true,powerPreference:'high-performance'});renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));renderer.setSize(innerWidth,innerHeight);renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;$('scene').innerHTML='';$('scene').appendChild(renderer.domElement);
+scene.add(new THREE.HemisphereLight(0xdff5ff,0x17231f,2.1));const sun=new THREE.DirectionalLight(0xffffff,2.8);sun.position.set(4,9,5);sun.castShadow=true;sun.shadow.mapSize.set(1024,1024);scene.add(sun);
+const floor=new THREE.Mesh(new THREE.BoxGeometry(10,.15,18),new THREE.MeshStandardMaterial({color:0x143e37,roughness:.8}));floor.position.y=-.08;floor.receiveShadow=true;scene.add(floor);
+const court=new THREE.Mesh(new THREE.BoxGeometry(6.1,.03,13.4),new THREE.MeshStandardMaterial({color:0x197b64,roughness:.58}));court.position.y=.01;court.receiveShadow=true;scene.add(court);
+courtLine(0,-6.7,6.1,.035);courtLine(0,6.7,6.1,.035);courtLine(-3.05,0,.035,13.4);courtLine(3.05,0,.035,13.4);courtLine(-2.59,0,.025,13.4);courtLine(2.59,0,.025,13.4);courtLine(0,-1.98,5.18,.025);courtLine(0,1.98,5.18,.025);
+if(S.mode==='doubles'){courtLine(0,-5.94,6.1,.025);courtLine(0,5.94,6.1,.025)}
+const net=new THREE.Mesh(new THREE.BoxGeometry(6.15,1.52,.045),new THREE.MeshStandardMaterial({color:0x172027,transparent:true,opacity:.72,roughness:1}));net.position.y=.76;scene.add(net);[-3.08,3.08].forEach(x=>{const p=new THREE.Mesh(new THREE.CylinderGeometry(.045,.045,1.7,10),new THREE.MeshStandardMaterial({color:0xd8d8d8}));p.position.set(x,.85,0);p.castShadow=true;scene.add(p)});
+player=makePlayer(0x42e2a6);player.position.set(0,.05,5.1);scene.add(player);opponent=makePlayer(0xff6375);opponent.position.set(0,.05,-5.1);scene.add(opponent);
+if(S.mode==='doubles'){partner=makePlayer(0x4fa7ff);partner.position.set(-1.6,.05,4.5);scene.add(partner);opponent2=makePlayer(0xffc85e);opponent2.position.set(1.6,.05,-4.5);scene.add(opponent2)}
+const sh=new THREE.Group();const cork=new THREE.Mesh(new THREE.CylinderGeometry(.055,.04,.09,8),new THREE.MeshStandardMaterial({color:0xf2e6c9}));cork.rotation.x=Math.PI/2;sh.add(cork);for(let i=0;i<8;i++){const f=new THREE.Mesh(new THREE.CylinderGeometry(.006,.006,.22,5),new THREE.MeshStandardMaterial({color:0xffffff}));f.rotation.z=(i/8)*Math.PI*2;f.position.y=.07;sh.add(f)}shuttle=sh;scene.add(shuttle);resetShuttle();
+clock=new THREE.Clock();camera.position.set(player.position.x,3.05,player.position.z+6.0);animate()
 }
-let vel=new THREE.Vector3(),target=new THREE.Vector3();
-function animate(){raf=requestAnimationFrame(animate);const dt=Math.min(clock.getDelta(),.033);if(!state.paused&&player){vel.lerp(target,.18);player.position.addScaledVector(vel,dt*3.2);player.position.x=Math.max(-2.6,Math.min(2.6,player.position.x));player.position.z=Math.max(2.2,Math.min(6.1,player.position.z));state.stamina=Math.max(0,state.stamina-Math.abs(vel.x+vel.z)*dt*2);if(state.stamina<25)state.stamina+=dt*4;camera.position.x+=(player.position.x-camera.position.x)*.08;camera.position.z+=(player.position.z+6.2-camera.position.z)*.08;camera.lookAt(player.position.x*.2,.65,0);$('stamina').style.width=state.stamina+'%';renderer.render(scene,camera)}}
-function updateHUD(){$('youScore').textContent=state.you;$('botScore').textContent=state.bot;$('gameNo').textContent=state.game;$('serveText').textContent=(state.serving==='you'?'YOU SERVE':'BOT SERVES')+' • '+((state.serving==='you'?state.you:state.bot)%2===0?'RIGHT':'LEFT')}
-function showCall(t,ms=800){const c=$('call');c.textContent=t;c.classList.add('show');setTimeout(()=>c.classList.remove('show'),ms)}
-function serviceCorrect(){return state.serving==='you' ? state.you%2===0 : state.bot%2===0}
-function playerShot(type){if(state.paused)return;if(state.serving==='you'&&state.rally===0){state.rally=1;showCall('SERVE');setTimeout(botReturn,400);return}if(state.rally===0){showCall('WAIT');return}state.rally++;const power={clear:.75,drop:.55,smash:1,drive:.85,lift:.65,net:.45}[type];state.stamina=Math.max(0,state.stamina-power*4);showCall(type.toUpperCase(),220);shuttle.position.set(player.position.x,1.1,1.4);setTimeout(botReturn,260+Math.random()*180)}
-function botReturn(){if(state.paused)return;state.rally++;const err=(6-state.diff)*.08;if(Math.random()<err){point('you','OUT');return}const types=['clear','drop','drive','smash','net'];showCall(types[Math.floor(Math.random()*types.length)].toUpperCase(),180);setTimeout(()=>{if(Math.random()<.12+state.diff*.035)point('bot','WINNER');else showCall('RALLY '+state.rally,140)},300)}
-function point(who,reason){if(state.paused)return;state[who]++;addXP(10);state.rally=0;state.serving=who;showCall(who==='you'?'POINT YOU':'POINT BOT',700);updateHUD();if(state.you>=21||state.bot>=21){const a=state.you,b=state.bot;if(Math.max(a,b)>=21&&Math.abs(a-b)>=2||a===30||b===30){endGame(a>b?'you':'bot')}}}
-function endGame(who){if(who==='you'){showCall('GAME YOU',1000);addXP(150)}else showCall('GAME BOT',1000);setTimeout(()=>{if(state.game<3){state.game++;state.you=0;state.bot=0;state.serving=who;state.rally=0;updateHUD();showCall('GAME '+state.game,900)}else{matchEnd(who)}},1100)}
-function matchEnd(who){state.paused=true;modal('<h2>'+ (who==='you'?'🏆 MATCH WON':'MATCH OVER')+'</h2><p>'+ (who==='you'?'Excellent rally discipline.':'Keep practicing your timing and positioning.')+'</p><p>XP earned has been saved locally.</p><div class="row"><button class="action" onclick="closeModal();restart()">Rematch</button><button class="secondary" onclick="closeModal();exitGame()">Main Menu</button></div>')}
-function pauseGame(){state.paused=!state.paused;if(state.paused)modal('<h2>Paused</h2><div class="row"><button class="action" onclick="closeModal();pauseGame()">Resume</button><button class="secondary" onclick="closeModal();restart()">Restart</button><button class="secondary" onclick="closeModal();exitGame()">Menu</button></div>')}
-function restart(){state.game=1;state.you=0;state.bot=0;state.serving='you';state.rally=0;state.stamina=100;state.paused=false;updateHUD();showCall('READY',600)}
-function exitGame(){state.paused=false;$('game').classList.remove('active');$('menu').style.display='flex';cancelAnimationFrame(raf)}
-let dragging=false;function moveJoy(e){const r=$('joy').getBoundingClientRect(),x=(e.clientX-r.left-r.width/2)/(r.width/2),y=(e.clientY-r.top-r.height/2)/(r.height/2);const m=Math.min(1,Math.hypot(x,y));const a=Math.atan2(y,x);const dx=Math.cos(a)*m,dy=Math.sin(a)*m;$('knob').style.transform='translate(calc(-50% + '+dx*30+'px),calc(-50% + '+dy*30+'px))';target.set(dx*2.8,0,-dy*2.8)}
-$('joy').addEventListener('pointerdown',e=>{dragging=true;$('joy').setPointerCapture(e.pointerId);moveJoy(e)});$('joy').addEventListener('pointermove',e=>{if(dragging)moveJoy(e)});$('joy').addEventListener('pointerup',()=>{dragging=false;$('knob').style.transform='translate(-50%,-50%)';target.set(0,0,0)});
-addEventListener('resize',()=>{if(renderer){camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)}})
-$('level').textContent=state.level;$('coins').textContent=state.coins;
+function resetShuttle(){shuttle.position.set(S.server==='you'?player.position.x:opponent.position.x,S.server==='you'?1.15:1.15,S.server==='you'?4.2:-4.2);shuttleVel.set(0,0,0);shuttleActive=false}
+function launch(from,type){
+const isYou=from==='you', p=isYou?player:opponent, targetZ=isYou?-5.4:5.4;
+const data={clear:[5.0,2.7],drop:[2.8,1.25],smash:[6.8,1.0],drive:[5.5,1.35],lift:[4.5,3.1],net:[2.1,.75]};
+const d=data[type]||data.clear;const tx=(Math.random()-.5)*(S.mode==='doubles'?4.8:4.3);const dx=tx-p.position.x,dz=targetZ-p.position.z;const t=d[0]/Math.max(2.5,Math.abs(dz));shuttle.position.set(p.position.x,p.position.y+1.15,p.position.z-.35*(isYou?1:-1));shuttleVel.set(dx/t,d[1],dz/t);shuttleActive=true;lastHit=performance.now()}
+function updateShuttle(dt){
+if(!shuttleActive)return;shuttle.position.addScaledVector(shuttleVel,dt);shuttleVel.y-=5.4*dt;shuttle.rotation.z+=dt*8;
+if(Math.abs(shuttle.position.z)<.08 && shuttle.position.y<1.55){shuttleActive=false;point('bot','NET');return}
+const landingSide=shuttle.position.z<0?'bot':'you';
+const groundY=.13;if(shuttle.position.y<=groundY){const x=shuttle.position.x;const inCourt=Math.abs(x)<=3.05 && Math.abs(shuttle.position.z)<=6.7;if(inCourt){point(landingSide,'LAND')}else point(landingSide==='you'?'bot':'you','OUT');return}
+if(shuttle.position.z<0 && shuttleVel.z<0 && shuttle.position.y<2.5 && performance.now()-lastHit>350){aiReturn();}}
+function aiReturn(){
+if(!shuttleActive)return;const reach=Math.abs(shuttle.position.x-opponent.position.x);const skill=.32+S.diff*.09;if(reach>2.1 || Math.random()>skill){shuttleActive=false;point('you','MISS');return}
+opponent.position.x += (shuttle.position.x-opponent.position.x)*.5;const r=Math.random();const type=r<.18?'smash':r<.4?'drop':r<.65?'drive':r<.82?'clear':'net';launch('bot',type)
+}
+function hit(type){
+if(S.paused||shuttleActive&&shuttle.position.z<0===false)return;
+if(S.server==='you'&&S.rally===0){S.rally=1;launch('you','clear');call('SERVE',250);return}
+if(!shuttleActive){call('WAIT',250);return}
+const dx=Math.abs(shuttle.position.x-player.position.x),dz=Math.abs(shuttle.position.z-player.position.z);const range=.85+(chars[S.selected][3]-80)*.015;
+if(dx>range||dz>1.15||shuttle.position.y<.45||shuttle.position.y>2.8){call('MISS',350);setTimeout(()=>point('bot','MISS'),350);return}
+const timing=Math.max(0,1-Math.abs(shuttle.position.y-1.45)/1.3);const quality=timing+(chars[S.selected][3]-80)/100;
+if(Math.random()>Math.min(.98,.55+quality*.35)){call('ERROR',300);setTimeout(()=>point('bot','ERROR'),300);return}
+S.rally++;const staminaCost={clear:5,drop:4,smash:9,drive:6,lift:5,net:4}[type];S.stamina=Math.max(0,S.stamina-staminaCost);launch('you',type);call(type.toUpperCase(),180)}
+function point(who,reason){
+if(S.paused)return;S[who==='you'?'you':'bot']++;S.server=who;S.rally=0;xp(8);hud();call((who==='you'?'POINT YOU':'POINT BOT'),600);resetShuttle();
+const a=S.you,b=S.bot;const finished=(Math.max(a,b)>=21&&Math.abs(a-b)>=2)||a===30||b===30;if(finished)setTimeout(()=>endGame(a>b?'you':'bot'),750)
+}
+function endGame(who){
+call(who==='you'?'GAME WON':'GAME LOST',900);setTimeout(()=>{if(S.game<3){S.game++;S.you=0;S.bot=0;S.server=who;S.rally=0;hud();resetShuttle();call('GAME '+S.game,700)}else{if(who==='you'){S.wins++;S.coins+=100;xp(150)}else{S.losses++;xp(50)}save();S.paused=true;modal('<h2>'+(who==='you'?'🏆 MATCH WON':'MATCH OVER')+'</h2><p>Final game complete. Your match record is <b>'+S.wins+' - '+S.losses+'</b>.</p><div class="row"><button class="action" onclick="close();restart()">Rematch</button><button class="secondary" onclick="close();exit()">Main Menu</button></div>')}},1000)
+}
+function hud(){$('ys').textContent=S.you;$('bs').textContent=S.bot;$('gn').textContent=S.game;$('opp').textContent=S.mode==='doubles'?'VS AI TEAM':'VS BOT';$('serve').textContent=(S.server==='you'?'YOU SERVE':'BOT SERVES')+' • '+(((S.server==='you'?S.you:S.bot)%2===0)?'RIGHT':'LEFT')}
+function call(t,ms=500){const c=$('call');c.textContent=t;c.classList.add('show');clearTimeout(call.timer);call.timer=setTimeout(()=>c.classList.remove('show'),ms)}
+function pause(){S.paused=!S.paused;if(S.paused)modal('<h2>Paused</h2><div class="row"><button class="action" onclick="close();pause()">Resume</button><button class="secondary" onclick="close();restart()">Restart</button><button class="secondary" onclick="close();exit()">Menu</button></div>')}
+function restart(){S.game=1;S.you=0;S.bot=0;S.server='you';S.rally=0;S.paused=false;S.stamina=100;hud();resetShuttle();call('READY',600)}
+function exit(){S.paused=false;$('game').style.display='none';$('menu').style.display='flex';cancelAnimationFrame(raf)}
+function animate(){
+raf=requestAnimationFrame(animate);const dt=Math.min(clock.getDelta(),.033);
+if(!S.paused){
+const speed=2.5+(chars[S.selected][3]-80)*.025;vel.lerp(target,.16);player.position.addScaledVector(vel,dt*speed);const w=S.mode==='doubles'?2.8:2.55;player.position.x=Math.max(-w,Math.min(w,player.position.x));player.position.z=Math.max(1.1,Math.min(6.2,player.position.z));
+if(S.mode==='doubles'){partner.position.x+=(player.position.x<0?-.8:1.0-partner.position.x)*dt*.5;partner.position.x=Math.max(-2.4,Math.min(2.4,partner.position.x))}
+if(S.stamina<100)S.stamina=Math.min(100,S.stamina+dt*(S.stamina<25?3.2:1.1));$('stam').style.width=S.stamina+'%';updateShuttle(dt);
+const desiredX=player.position.x,desiredZ=player.position.z+5.8;camera.position.x+=(desiredX-camera.position.x)*.09;camera.position.z+=(desiredZ-camera.position.z)*.09;camera.position.y+=(3.0-camera.position.y)*.08;camera.lookAt(player.position.x*.18,.75,player.position.z*.25)
+}renderer.render(scene,camera)
+}
+let dragging=false;
+function moveJoy(e){const r=$('joy').getBoundingClientRect();let x=(e.clientX-r.left-r.width/2)/(r.width/2),y=(e.clientY-r.top-r.height/2)/(r.height/2);const m=Math.min(1,Math.hypot(x,y));if(m>1){x/=m;y/=m}$('knob').style.transform='translate(calc(-50% + '+x*30+'px),calc(-50% + '+y*30+'px))';target.set(x,0,-y)}
+$('joy').addEventListener('pointerdown',e=>{dragging=true;$('joy').setPointerCapture(e.pointerId);moveJoy(e)});$('joy').addEventListener('pointermove',e=>{if(dragging)moveJoy(e)});$('joy').addEventListener('pointerup',()=>{dragging=false;$('knob').style.transform='translate(-50%,-50%)';target.set(0,0,0)});$('joy').addEventListener('pointercancel',()=>{dragging=false;target.set(0,0,0)});
+addEventListener('resize',()=>{if(renderer){camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)}});
+$('level').textContent=S.level;$('coins').textContent=S.coins;
 </script>
 </body></html>
